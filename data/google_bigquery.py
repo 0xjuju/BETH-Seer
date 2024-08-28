@@ -4,12 +4,14 @@ from datetime import datetime
 import os
 from typing import Any, Union
 
+from data.models import BTCArticle
 from google.cloud import bigquery
 from google.cloud.bigquery import table
 import pandas as pd
 
 
 class BigQuery:
+
     def __init__(self):
         os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "gcloud_credentials.json"
         self.client = bigquery.Client()
@@ -24,16 +26,23 @@ class BigQuery:
         return query_job.result()
 
     @staticmethod
+    def df_to_database(df: pd.DataFrame) -> None:
+        to_dict = df.to_dict(orient="records")
+        upload_list = [BTCArticle(**article) for article in to_dict]
+        BTCArticle.objects.bulk_create(upload_list)
+
+
+    @staticmethod
     def format_gkg_data(data_table: table.RowIterator) -> pd.DataFrame:
         """
         :param data_table:
-        :return: Dataframe containing gkg article data
+        :return: Dataframe containing gkg article data_dd
         """
 
         dataframe = pd.DataFrame(
             columns=[
                 "document_id", "themes", "tone", "positive_score", "negative_score", "polarity",
-                "activity_reference_density", "magnitude", "persons", "organizations", "date"
+                "activity_reference_density", "magnitude", "persons", "organizations", "date_created",
             ]
         )
 
