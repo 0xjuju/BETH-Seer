@@ -1,8 +1,6 @@
 from django.test import TestCase
 from unittest.mock import MagicMock
-from datetime import datetime, timedelta
 from coinbase_api.cb_api import CBApi
-import pandas as pd
 
 
 class CoinbaseClientTest(TestCase):
