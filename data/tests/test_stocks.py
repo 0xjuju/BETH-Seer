@@ -9,7 +9,7 @@ class TestStocks(TestCase):
 
     def test_get_stock_historical(self):
 
-        res = get_stock_historical(ticker="^GSPC")
+        res = get_stock_historical(ticker="GSPC")
         print(res)
 
 

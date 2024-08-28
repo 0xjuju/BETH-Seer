@@ -5,7 +5,7 @@ import yfinance as yf
 
 def get_stock_historical(ticker: str, period: str = "1y", interval: str = "1d"):
 
-    spx_data = yf.download(ticker, period=period, interval=interval)
+    spx_data = yf.download(f"^{ticker}", period=period, interval=interval)
 
     spx_df = spx_data[['Open', 'Close']].reset_index()
 
